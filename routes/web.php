@@ -18,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[PageController::class, 'home' ])->name('homepage');
 
 Route::resource('books',BookController::class);
+
+Route::get('/user/books',[BookController::class,'userBooks'])->name('user.books')->middleware('auth');

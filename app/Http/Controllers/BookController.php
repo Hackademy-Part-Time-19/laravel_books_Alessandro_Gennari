@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BookStoreRequest;
 use App\Models\Book;
+use App\Models\Genre;
 use Illuminate\Http\Request;
+use App\Http\Requests\BookStoreRequest;
 
 class BookController extends Controller
 {
@@ -22,7 +23,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view ('books.create');
+        $genres= Genre::all();
+        return view ('books.create',compact('genres'));
     }
 
     /**
@@ -31,10 +33,13 @@ class BookController extends Controller
     public function store(BookStoreRequest $request)
     {
         $validated= $request->validated();
-        Book::create(['author'=>auth()->user()->name, 
+        $book= Book::create(['user_id'=>auth()->user()->id, 
                         'title'=>$validated['title'],
                         'description'=>$validated['description'],
                         'price'=>$validated['price'],]);
+
+
+        $book->genres()->attach($request->genres);                
 
         return redirect()->back()->with(['success'=>'Libro inserito correttamente']);                
 
@@ -64,7 +69,7 @@ class BookController extends Controller
         $validated= $request->validated();
         $book->update(['title'=>$validated['title'],
                         'description'=>$validated['description'],
-                        'price'=>$validated['price'],]);
+                        'price'=>$validated['price'],]);            
 
         return redirect()->back()->with(['success'=>'Libro aggiornato correttamente']);
     }
@@ -75,5 +80,12 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
+
+        return redirect()->back()->with(['delete'=>'Libro eliminato']);
+    }
+
+    public function userBooks(){
+        $books= auth()->user()->books;
+        return view('user.books',compact('books'));
     }
 }

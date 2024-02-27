@@ -1,5 +1,6 @@
 <x-layout>
-
+    <x-success></x-success>
+    <x-delete></x-delete>
     <div class="container">
         <div class="row">
             <div class="col-lg-4 mx-auto">
@@ -8,7 +9,7 @@
                 <h1>Inserisci un libro</h1>
                 <div class="mb-3">
                     <label for="title" class="form-label">Titolo</label>
-                    <input name="title" type="text" class="form-control" id="title">
+                    <input name="title" type="text" class="form-control" id="title" value="{{old('title')}}">
                 </div>
 
                 @error('title')
@@ -17,7 +18,7 @@
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Prezzo</label>
-                    <input name="price" type="decimal" class="form-control" id="price">
+                    <input name="price" type="decimal" class="form-control" id="price" value="{{old('price')}}">
                 </div>
 
                 @error('price')
@@ -26,12 +27,21 @@
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Descrizione</label>
-                    <input name="description" type="text" class="form-control" id="description">
+                    <input name="description" type="text" class="form-control" id="description" value="{{old('description')}}">
                 </div>
 
                 @error('description')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
+
+                    <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                        @foreach ($genres as $genre)
+
+                            <input name="genres[]" type="checkbox" class="btn-check" id="btncheck{{$genre->id}}" autocomplete="off" value="{{$genre->id}}">
+                            <label class="btn btn-outline-primary" for="btncheck{{$genre->id}}">{{$genre->name}}</label>   
+
+                        @endforeach
+                      </div>
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Immagine</label>

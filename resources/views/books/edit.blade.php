@@ -1,15 +1,16 @@
 <x-layout>
-
+    <x-success></x-success>
+    <x-delete></x-delete>
     <div class="container">
         <div class="row">
             <div class="col-lg-4 mx-auto">
-                <form class="mt-5" action="{{route('books.update')}}" method="POST" enctype="multipart/form-data">
+                <form class="mt-5" action="{{route('books.update',['book'=>$book])}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <h1>Aggiorna il libro {{$book->title}}</h1>
                 <div class="mb-3">
                     <label for="title" class="form-label">Titolo</label>
-                    <input name="title" type="text" class="form-control" id="title" value=">{{old('title',$book->title)}}">
+                    <input name="title" type="text" class="form-control" id="title" value="{{old('title',$book->title)}}">
                 </div>
 
                 @error('title')
@@ -18,7 +19,7 @@
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Prezzo</label>
-                    <input name="price" type="decimal" class="form-control" id="price" value=">{{old('price',$book->price)}}">
+                    <input name="price" type="decimal" class="form-control" id="price" value="{{old('price',$book->price)}}">
                 </div>
 
                 @error('price')
@@ -27,12 +28,13 @@
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Descrizione</label>
-                    <input name="description" type="text" class="form-control" id="description" value=">{{old('description',$book->description)}}">
+                    <input name="description" type="text" class="form-control" id="description" value="{{old('description',$book->description)}}">
                 </div>
 
                 @error('description')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
+                
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Immagine</label>
@@ -44,7 +46,7 @@
                 @enderror
                 
 
-                <button type="submit" class="btn btn-primary">Inserisci</button>
+                <button type="submit" class="btn btn-primary">Salva</button>
                 
                 </form>
 
