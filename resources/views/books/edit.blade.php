@@ -38,7 +38,7 @@
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Immagine</label>
-                    <input name="image" type="file" class="form-control" id="image">
+                    <input name="image" type="file" class="form-control" id="image" value="{{old('image',$book->image)}}">
                 </div>
 
                 @error('image')

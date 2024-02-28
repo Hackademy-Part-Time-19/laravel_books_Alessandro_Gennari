@@ -38,6 +38,14 @@ class BookController extends Controller
                         'description'=>$validated['description'],
                         'price'=>$validated['price'],]);
 
+        if($request->hasFile('image') && $request->file('image')->isValid()) {
+            $file= $request->file('image');
+            $name= uniqid().$book->id.'.'.$file->extension();
+            $file->storeAs('public/books/'.$book->id,$name);
+
+            $book->image='public/books/'.$book->id.'/'.$name;
+            $book->save();
+        }                
 
         $book->genres()->attach($request->genres);                
 
@@ -79,6 +87,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        $book->genres()->detach();
         $book->delete();
 
         return redirect()->back()->with(['delete'=>'Libro eliminato']);
